@@ -75,13 +75,13 @@
         }
 
         function calculateVAT() {
-            var grossPrice = totalPrice;
-            var vatRate = 0.07; // 7% VAT rate
-            var vatAmount = grossPrice * vatRate;
-            document.getElementById("vatAmount").textContent = vatAmount.toFixed(2);
-            var netAmount = grossPrice + vatAmount;
-            document.getElementById("netAmount").textContent = netAmount.toFixed(2);
+            var price = $('#price').val();
+            var discount = $('#discount').val();
+            var vat = ( price - discount) * 0.07;
+            $('#vat').html('VAT: ' + vat.toFixed(2))
+            $('#total').html('total: ' +(price -discount + vat).toFixed(2))
         }
+    </script
     </script>
 </body>
 </html>
