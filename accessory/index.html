@@ -47,41 +47,36 @@
     <span id="netAmount"></span>
 
     <script>
+     $(document).ready(function() {
         var totalPrice = 0;
-        function addToProductList() {
-            var accessorySelect = document.getElementById("accessory");
-            var accessoryOption = accessorySelect.options[accessorySelect.selectedIndex];
-            var accessoryName = accessoryOption.text;
-            var accessoryPrice = parseFloat(accessoryOption.value);
-            var amountInput = document.getElementById("amount");
-            var amount = parseInt(amountInput.value);
 
-            var productList = document.getElementById("productList");
-            var newRow = productList.insertRow(-1);
-            var accessoryCell = newRow.insertCell(0);
-            var amountCell = newRow.insertCell(1);
-            var priceCell = newRow.insertCell(2);
+        $('#addButton').on('click', function() {
+            var accessorySelect = $('#accessory');
+            var accessoryOption = accessorySelect.find('option:selected');
+            var accessoryName = accessoryOption.text();
+            var accessoryPrice = parseFloat(accessoryOption.val());
+            var amount = parseInt($('#amount').val());
 
-            accessoryCell.innerHTML = accessoryName;
-            amountCell.innerHTML = amount;
-            priceCell.innerHTML = (accessoryPrice * amount).toFixed(2);
+            var newRow = $('<tr></tr>');
+            newRow.append('<td>' + accessoryName + '</td>');
+            newRow.append('<td>' + amount + '</td>');
+            newRow.append('<td>' + (accessoryPrice * amount).toFixed(2) + '</td>');
+            $('#productList').append(newRow);
 
-            // Update the total price
             totalPrice += accessoryPrice * amount;
-            document.getElementById("totalPrice").innerHTML = totalPrice.toFixed(2);
+            $('#totalPrice').html(totalPrice.toFixed(2));
 
-            // Calculate VAT and Net Amount
             calculateVAT();
         }
 
         function calculateVAT() {
-            var price = $('#price').val();
-            var discount = $('#discount').val();
-            var vat = ( price - discount) * 0.07;
-            $('#vat').html('VAT: ' + vat.toFixed(2))
-            $('#total').html('total: ' +(price -discount + vat).toFixed(2))
+            var grossPrice = totalPrice;
+            var vatRate = 0.07; // 7% VAT rate
+            var vatAmount = grossPrice * vatRate;
+            $('#vatAmount').html(vatAmount.toFixed(2));
+            var netAmount = grossPrice + vatAmount;
+            $('#netAmount').html(netAmount.toFixed(2));
         }
     </script
-    </script>
 </body>
 </html>
