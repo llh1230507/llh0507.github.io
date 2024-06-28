@@ -19,7 +19,7 @@
         <label for="amount">Amount:</label>
         <input type="number" id="amount" min="1" value="1">
         <br>
-        <button type="button" onclick="addToProductList()">Add</button>
+        <button type="button" id="addButton">Add</button>
     </form>
     <table>
         <thead>
@@ -47,36 +47,39 @@
     <span id="netAmount"></span>
 
     <script>
-     $(document).ready(function() {
-        var totalPrice = 0;
+        $(document).ready(function() {
+            var totalPrice = 0;
 
-        $('#addButton').on('click', function() {
-            var accessorySelect = $('#accessory');
-            var accessoryOption = accessorySelect.find('option:selected');
-            var accessoryName = accessoryOption.text();
-            var accessoryPrice = parseFloat(accessoryOption.val());
-            var amount = parseInt($('#amount').val());
+            $('#addButton').on('click', function() {
+                var accessorySelect = $('#accessory');
+                var accessoryOption = accessorySelect.find('option:selected');
+                var accessoryName = accessoryOption.text();
+                var accessoryPrice = parseFloat(accessoryOption.val());
+                var amount = parseInt($('#amount').val());
 
-            var newRow = $('<tr></tr>');
-            newRow.append('<td>' + accessoryName + '</td>');
-            newRow.append('<td>' + amount + '</td>');
-            newRow.append('<td>' + (accessoryPrice * amount).toFixed(2) + '</td>');
-            $('#productList').append(newRow);
+                var newRow = $('<tr></tr>');
+                newRow.append('<td>' + accessoryName + '</td>');
+                newRow.append('<td>' + amount + '</td>');
+                newRow.append('<td>' + (accessoryPrice * amount).toFixed(2) + '</td>');
+                $('#productList').append(newRow);
 
-            totalPrice += accessoryPrice * amount;
-            $('#totalPrice').html(totalPrice.toFixed(2));
+                // Update the total price
+                totalPrice += accessoryPrice * amount;
+                $('#totalPrice').html(totalPrice.toFixed(2));
 
-            calculateVAT();
-        }
+                // Calculate VAT and Net Amount
+                calculateVAT();
+            });
 
-        function calculateVAT() {
-            var grossPrice = totalPrice;
-            var vatRate = 0.07; // 7% VAT rate
-            var vatAmount = grossPrice * vatRate;
-            $('#vatAmount').html(vatAmount.toFixed(2));
-            var netAmount = grossPrice + vatAmount;
-            $('#netAmount').html(netAmount.toFixed(2));
-        }
-    </script
+            function calculateVAT() {
+                var grossPrice = totalPrice;
+                var vatRate = 0.07; // 7% VAT rate
+                var vatAmount = grossPrice * vatRate;
+                $('#vatAmount').html(vatAmount.toFixed(2));
+                var netAmount = grossPrice + vatAmount;
+                $('#netAmount').html(netAmount.toFixed(2));
+            }
+        });
+    </script>
 </body>
 </html>
